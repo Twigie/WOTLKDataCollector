@@ -1,4 +1,3 @@
-DataCollectorDebugMode = true
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("ADDON_LOADED")
 frame:RegisterEvent("LOOT_OPENED")
@@ -25,15 +24,16 @@ frame:SetScript("OnEvent", function(self, event, msg)
         ItemTrackerDB = ItemTrackerDB or {}
         CreatureTrackerDB = CreatureTrackerDB or {}
         QuestTrackerDB = QuestTrackerDB or {}
+        DataCollectorDebugMode = DataCollectorDebugMode or false
         -- Add any other SavedVariables init here
 
         print("|cff3399ffWOTLK Data Collector|r |cff00ff00loaded.|r Type |cffffff00/wdc help|r for commands.")
-        print("Data is saved to \\WTF\\Account\\USER\\SavedVariables\\WOTLKDataCollector.lua")
+        print("Data is saved to \\WTF\\Account\\USER\\"..GetRealmName().."\\"..GetUnitName("player").."\\SavedVariables\\WOTLKDataCollector.lua")
   end
 
   if event == "GOSSIP_SHOW" or event == "MERCHANT_SHOW" or event == "TAXIMAP_OPENED" or event == "BANKFRAME_OPENED" or event == "TRAINER_SHOW"then
     print(event)
-    AddCreatureFromInteraction()
+    AddCreatureOrLocation("npc")
   end
   -- Listen for loot window opening
   if event == "LOOT_OPENED" then

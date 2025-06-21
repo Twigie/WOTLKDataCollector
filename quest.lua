@@ -1,3 +1,5 @@
+local AceTimer = LibStub("AceTimer-3.0")
+
 local function GetQuestDetailsByTitle(titleToFind)
   for i = 1, GetNumQuestLogEntries() do
     local title, level, questTag, suggestedGroup, _, _, _, isDaily, questID = GetQuestLogTitle(i)
@@ -25,6 +27,35 @@ local function FindQuest(name, id)
     return nil
   end
 end
+
+local function ProcessQuestRewards()
+  local questTitle = GetTitleText()
+    local questID, _, _, _, _ = GetQuestDetailsByTitle(questTitle)
+
+    -- Guaranteed rewards
+    local numRewards = GetNumQuestRewards()
+    for i = 1, numRewards do
+      local itemLink = GetQuestItemLink("reward", i)
+      if itemLink then
+        LootTracker_SaveLoot(itemLink, "QuestReward", questID)
+      else
+        PlayerLog("Cannot parse quest rewards please re-open the quest complete dialog.")
+      end
+    end
+
+    -- Choice rewards (not filtered by what player chooses)
+    local numChoices = GetNumQuestChoices()
+    for i = 1, numChoices do
+      local itemLink = GetQuestItemLink("choice", i)
+      if itemLink then
+        LootTracker_SaveLoot(itemLink, "QuestReward", questID)
+      else
+      PlayerLog("Cannot parse quest rewards please re-open the quest complete dialog.")
+      end
+    end
+end
+
+
 
 function AddQuest(questStatus, unitID)
   local x, y, zone, subzone, realZone = GetPlayerPosition()
@@ -91,67 +122,29 @@ function AddQuest(questStatus, unitID)
   end
 end
 
-local lastDialogNPC
+LastUnitDialogID = 0
 function LootTracker_HandleQuestEvent(event)
   print(event)
-  local x, y, zone, subzone, realZone = GetPlayerPosition()
-
+  if UnitExists("npc") then
+    _, LastUnitDialogID = ExtractGUIDInfo(UnitGUID("npc"))
+  end
   if event == "QUEST_DETAIL" then
     if UnitExists("npc") then
-      _, lastDialogNPC = ExtractGUIDInfo(UnitGUID("npc"))
-      print(lastDialogNPC)
-      local targetID, _, targetName, targetCreatureType, targetFamily, targetHealth, targetLevel, targetClassification, targetFaction =
-      GetTargetDetails("target")
-      AddCreatureOrLocation(targetName, targetID, realZone, zone, subzone, x, y, targetCreatureType, targetFamily,
-        targetHealth, targetLevel, targetClassification, targetFaction)
-    else
-      lastDialogNPC = 0
+      AddCreatureOrLocation("npc")
     end
   end
   if event == "QUEST_COMPLETE" then
-    local _, unitID = ExtractGUIDInfo(UnitGUID("npc"))
+    local unitID = AddCreatureOrLocation("npc")
     AddQuest("Completed", unitID)
-    local questTitle = GetTitleText()
-    local questID, _, _, _, _ = GetQuestDetailsByTitle(questTitle)
+    -- If the quest has rewards then wait 1 sec and log the loot, this is so that the uncached data can be retrieved
+    if not (GetNumQuestChoices() == 0 and GetNumQuestRewards() == 0) then
+      AceTimer:ScheduleTimer(ProcessQuestRewards, 1)
+    end
+  -- QuestID not available until the quest is accepted: Below will not work
+  -- elseif event == "QUEST_ITEM_UPDATE" then
 
-    -- Guaranteed rewards
-    local numRewards = GetNumQuestRewards()
-    for i = 1, numRewards do
-      local itemLink = GetQuestItemLink("reward", i)
-      if itemLink then
-        LootTracker_SaveLoot(itemLink, "QuestReward", questID)
-      end
-    end
-
-    -- Choice rewards (not filtered by what player chooses)
-    local numChoices = GetNumQuestChoices()
-    for i = 1, numChoices do
-      local itemLink = GetQuestItemLink("choice", i)
-      if itemLink then
-        LootTracker_SaveLoot(itemLink, "QuestChoice", questID)
-      end
-    end
-  elseif event == "QUEST_ITEM_UPDATE" then
-    local questTitle = GetTitleText()
-    local questID, _, _, _, _ = GetQuestDetailsByTitle(questTitle)
-    local numRewards = GetNumQuestRewards()
-    for i = 1, numRewards do
-      local itemLink = GetQuestItemLink("reward", i)
-      if itemLink then
-        LootTracker_SaveLoot(itemLink, "QuestReward", questID)
-      end
-    end
-
-    -- Choice rewards (not filtered by what player chooses)
-    local numChoices = GetNumQuestChoices()
-    for i = 1, numChoices do
-      local itemLink = GetQuestItemLink("choice", i)
-      if itemLink then
-        LootTracker_SaveLoot(itemLink, "QuestChoice", questID)
-      end
-    end
   elseif event == "QUEST_ACCEPTED" then
-    AddQuest("Accepted", lastDialogNPC)
+    AddQuest("Accepted", LastUnitDialogID)
     -- elseif event == "QUEST_DETAIL" then
     --   AddQuest("Details", unitID)
   end

@@ -24,7 +24,7 @@ end
 -- Find existing items to avoid duplicate entries
 local function isItemDuplicate(name, id, sourceID)
   for _, item in ipairs(ItemTrackerDB) do
-    if item["itemName"] == name and item["itemID"] == id and item["ItemSourceID"] == sourceID then
+    if item["itemName"] == name and item["itemID"] == id and item["itemSourceID"] == sourceID then
       return true
     end
   end
@@ -99,16 +99,14 @@ end
 
 -- Handle LOOT_OPENED
 function LootTracker_HandleLootOpened()
-  local x, y, zone, subzone, realZone = GetPlayerPosition()
   if UnitExists('mouseover') then
     print('npc')
-    local targetID, targetType, targetName, targetCreatureType, targetFamily, targetHealth, targetLevel, targetClassification, targetFaction = GetTargetDetails("mouseover")
-    AddCreatureOrLocation(targetName, targetID, realZone, zone, subzone, x , y, targetCreatureType, targetFamily, targetHealth, targetLevel, targetClassification, targetFaction)
+    local id, guidType = AddCreatureOrLocation("mouseover")
     for i = 1, GetNumLootItems() do
       local texture = select(1, GetLootSlotInfo(i))
       local itemLink = GetLootSlotLink(i)
         if itemLink and texture then
-          LootTracker_SaveLoot(itemLink, targetType, targetID)
+          LootTracker_SaveLoot(itemLink, guidType, id)
         end
     end
   else
@@ -150,7 +148,7 @@ function LootTracker_SaveLoot(itemLink, sourceType, sourceID)
         itemTexture = texture,
         itemVendorPrice = vendorPrice,
         itemSource = sourceType,
-        ItemSourceID = sourceID or 0,
+        itemSourceID = sourceID or 0,
         itemTooltip = tooltip
     })
     -- LootTracker_PrintDB()

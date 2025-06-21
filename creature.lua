@@ -18,14 +18,11 @@ local function FindCreature(name, id)
   return nil
 end
 
-function AddCreatureFromInteraction()
-    local x, y, zone, subzone, realZone = GetPlayerPosition()
-    local targetID, _, targetName, targetCreatureType, targetFamily, targetHealth, targetLevel, targetClassification, targetFaction = GetTargetDetails("target")
-    AddCreatureOrLocation(targetName, targetID, realZone, zone, subzone, x, y, targetCreatureType, targetFamily, targetHealth, targetLevel, targetClassification, targetFaction)
-end
-
 -- Add creature if it doesn't exist
-function AddCreatureOrLocation(name, id, realZone, zone, subzone, x, y, type, family, health, level, targetClassification, targetFaction)
+-- unitID is target, npc, mouseover etc..
+function AddCreatureOrLocation(unitID)
+  local x, y, zone, subzone, realZone = GetPlayerPosition()
+  local id, guidType, name, creatureType, family, health, level, classification, faction = GetTargetDetails(unitID)
   local creature = FindCreature(name, id)
   local newLoc = { zone = zone, subzone = subzone, realZone = realZone, x = x, y = y }
 
@@ -34,12 +31,12 @@ function AddCreatureOrLocation(name, id, realZone, zone, subzone, x, y, type, fa
     table.insert(CreatureTrackerDB, {
       creatureName = name,
       creatureID = id,
-      creatureType = type or "",
+      creatureType = creatureType or "",
       creatureFamily = family or "",
       creatureMaxHealth = health or 0,
       creatureLevel = level or 0,
-      creatureClassification = targetClassification or "",
-      creatureFaction = targetFaction or "",
+      creatureClassification = classification or "",
+      creatureFaction = faction or "",
       locations = { newLoc }
     })
     DebugLog("Added new creature and location:", name, id, zone, subzone, x, y)
@@ -53,5 +50,6 @@ function AddCreatureOrLocation(name, id, realZone, zone, subzone, x, y, type, fa
       DebugLog("Location already recorded for creature:", name, id)
     end
   end
+  return id, guidType
 end
 

@@ -4,8 +4,12 @@
 ## Version: 0.1
 ## DefaultState: enabled
 ## Author: Twigie (|cff80808Twigie|r)
+## SavedVariables: DataCollectorDebugMode
 ## SavedVariablesPerCharacter: ItemTrackerDB CreatureTrackerDB QuestTrackerDB
 
+
+lib\LibStub\LibStub.lua
+lib\AceTimer-3.0\AceTimer-3.0.xml
 utility.lua
 creature.lua
 item.lua

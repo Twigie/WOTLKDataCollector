@@ -1,3 +1,4 @@
+
 -- Get the players position
 function GetPlayerPosition()
   local zone = GetZoneText()
@@ -37,7 +38,7 @@ end
 -- https://web.archive.org/web/20100726120812/http://wowprogramming.com/docs/api_types#unitID
 function GetTargetDetails(unitID)
   if ExtractGUIDInfo(UnitGUID(unitID)) == "Creature" then
-    local npcType ,id = ExtractGUIDInfo(UnitGUID(unitID))
+    local guidType ,id = ExtractGUIDInfo(UnitGUID(unitID))
     local name = UnitName(unitID)
     local type = UnitCreatureType(unitID)
     local family = UnitCreatureFamily(unitID)
@@ -45,7 +46,7 @@ function GetTargetDetails(unitID)
     local level = UnitLevel(unitID)
     local classification = UnitClassification(unitID)
     local faction, _ =  UnitFactionGroup(unitID)
-    return id, npcType, name, type, family, health, level, classification, faction
+    return id, guidType, name, type, family, health, level, classification, faction
   end
 end
 
@@ -53,4 +54,8 @@ function DebugLog(...)
   if DataCollectorDebugMode then
   print("|cffff0000DEBUG|r: ", ...)
   end
+end
+
+function PlayerLog(...)
+  print("|cffff0000WDC|r: ", ...)
 end
