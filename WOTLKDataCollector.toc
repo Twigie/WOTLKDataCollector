@@ -1,0 +1,13 @@
+## Interface: 30300
+## Title: |cff3399ffWOTLK Data Collector|r
+## Notes: Tracks items looted, npcs the items were looted from, quests accepted and completed and the reward items from those quests.
+## Version: 0.1
+## DefaultState: enabled
+## Author: Twigie (|cff80808Twigie|r)
+## SavedVariablesPerCharacter: ItemTrackerDB CreatureTrackerDB QuestTrackerDB
+
+utility.lua
+creature.lua
+item.lua
+quest.lua
+main.lua
