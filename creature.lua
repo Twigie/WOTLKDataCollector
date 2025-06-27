@@ -21,10 +21,10 @@ end
 -- Add creature if it doesn't exist
 -- unitID is target, npc, mouseover etc..
 function AddCreatureOrLocation(unitID)
-  local x, y, zone, subzone, realZone = GetPlayerPosition()
+  local x, y, zone, subZone, realZone = GetPlayerPosition()
   local id, guidType, name, creatureType, family, health, level, classification, faction = GetTargetDetails(unitID)
   local creature = FindCreature(name, id)
-  local newLoc = { zone = zone, subzone = subzone, realZone = realZone, x = x, y = y }
+  local newLoc = { zone = zone, subZone = subZone, realZone = realZone, x = x, y = y }
 
   if not creature then
     -- New creature, add with initial location
@@ -39,13 +39,13 @@ function AddCreatureOrLocation(unitID)
       creatureFaction = faction or "",
       locations = { newLoc }
     })
-    DebugLog("Added new creature and location:", name, id, zone, subzone, x, y)
+    DebugLog("Added new creature and location:", name, id, zone, subZone, x, y)
   else
     -- Creature exists, add location if new
     creature.locations = creature.locations or {}
     if not LocationExists(creature.locations, newLoc) then
       table.insert(creature.locations, newLoc)
-      DebugLog("Added new location for creature:", name, id, zone, subzone, x, y)
+      DebugLog("Added new location for creature:", name, id, zone, subZone, x, y)
     else
       DebugLog("Location already recorded for creature:", name, id)
     end
