@@ -60,6 +60,7 @@ end
 function AddQuest(questStatus, unitID)
   local x, y, zone, subzone, realZone = GetPlayerPosition()
   if questStatus == "Accepted" then
+    local questText = GetQuestText()
     local questObjective = GetObjectiveText()
     local questXP = GetRewardXP()
     local questReward = GetRewardMoney()
@@ -76,6 +77,7 @@ function AddQuest(questStatus, unitID)
         questRewardXP = questXP or 0,
         questRewardMoney = questReward or 0,
         questObjective = questObjective or "",
+        questDescription = questText or "",
         questLevel = level or 0,
         questTag = questTag or "standard",
         questGroup = suggestedGroup or 0,
@@ -93,6 +95,8 @@ function AddQuest(questStatus, unitID)
       DebugLog("Quest already logged")
     end
   elseif questStatus == "Completed" then
+    local questText = GetQuestText()
+    local questObjective = GetObjectiveText()
     local rewardXP = GetRewardXP()
     local rewardMoney = GetRewardMoney()
     local questName = GetTitleText()
@@ -113,6 +117,7 @@ function AddQuest(questStatus, unitID)
         questRewardXP = rewardXP or 0,
         questRewardMoney = rewardMoney or 0,
         questObjective = questObjective or "",
+        questDescription = questText or "",
       })
       DebugLog(string.format("[Quest: %s] QuestID: %s Added to Log: from %s", questName, questID, unitID))
     else

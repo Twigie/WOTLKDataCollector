@@ -32,12 +32,10 @@ frame:SetScript("OnEvent", function(self, event, msg)
   end
 
   if event == "GOSSIP_SHOW" or event == "MERCHANT_SHOW" or event == "TAXIMAP_OPENED" or event == "BANKFRAME_OPENED" or event == "TRAINER_SHOW"then
-    print(event)
     AddCreatureOrLocation("npc")
   end
   -- Listen for loot window opening
   if event == "LOOT_OPENED" then
-    print(event)
     LootTracker_HandleLootOpened()
   -- Listen for others looting in chat window
   elseif event == "CHAT_MSG_LOOT" then

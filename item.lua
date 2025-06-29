@@ -125,7 +125,6 @@ function LootTracker_HandleLootOpened()
     for i = 1, GetNumLootItems() do
       local texture = select(1, GetLootSlotInfo(i))
       local itemLink = GetLootSlotLink(i)
-      GetItemInfo(itemLink)
       if itemLink and texture then
         LootTracker_SaveLoot(itemLink, guidType, id)
       end
@@ -137,7 +136,6 @@ function LootTracker_HandleLootOpened()
     for i = 1, GetNumLootItems() do
       local texture = select(1, GetLootSlotInfo(i))
       local itemLink = GetLootSlotLink(i)
-      GetItemInfo(itemLink)
       if itemLink and texture then
         LootTracker_SaveLoot(itemLink, targetType, targetID)
       end
