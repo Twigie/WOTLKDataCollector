@@ -119,9 +119,8 @@ end
 
 -- Handle LOOT_OPENED
 function LootTracker_HandleLootOpened()
-  if UnitExists('mouseover') then
-    print('npc')
-    local id, guidType = AddCreatureOrLocation("mouseover")
+  if (UnitExists('target') and UnitExists('mouseover')) and (UnitName('target') == UnitName('mouseover')) then
+    local id, guidType = AddCreatureOrLocation("target")
     for i = 1, GetNumLootItems() do
       local texture = select(1, GetLootSlotInfo(i))
       local itemLink = GetLootSlotLink(i)
@@ -130,7 +129,6 @@ function LootTracker_HandleLootOpened()
       end
     end
   else
-    print('container')
     local targetType = "Container"
     local targetID = 0
     for i = 1, GetNumLootItems() do
@@ -151,6 +149,7 @@ function ParseItemTooltip(tooltip)
     resistances = {},
     stats = {},
     requirement = {},
+    armor = 0
   }
 
   if not tooltip or type(tooltip) ~= "table" then return parsed end
@@ -201,7 +200,9 @@ function ParseItemTooltip(tooltip)
         parsed.minDamage = tonumber(min)
         parsed.maxDamage = tonumber(max)
       end
-
+    elseif line:find("Armor") then
+      local armor = string.match(text, "^(%d+)%s+Armor$")
+          parsed.armor = tonumber(armor)
       -- Speed line (e.g., "Speed 2.80")
     elseif line:find("Speed") then
       local speed = line:match("Speed%s+(%d+%.?%d*)")
@@ -258,7 +259,8 @@ function LootTracker_SaveLoot(itemLink, sourceType, sourceID)
     resistances = parsedTooltip.resistances or {},
     unique = parsedTooltip.unique or 0,
     requirement = parsedTooltip.requirement or {},
-    binding = parsedTooltip.binding or ""
+    binding = parsedTooltip.binding or "",
+    armor = parsedTooltip.armor
   })
   -- LootTracker_PrintDB()
   DebugLog(string.format("Looted: %s (ID: %d, iLvl: %d, Quality: %s) from %s [%s]",
