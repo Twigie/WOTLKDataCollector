@@ -17,10 +17,10 @@ Data is saved as lua tables in the addons saved variables: ItemTrackerDB Creatur
 Saves creature data on the following events:
 GOSSIP_SHOW, MERCHANT_SHOW, TAXIMAP_OPENED, BANKFRAME_OPENED, TRAINER_SHOW, QUEST_DETAIL
 
-Saves item info on the following events:
+Saves item data on the following events:
 LOOT_OPENED, CHAT_MSG_LOOT, QUEST_COMPLETE
 
-Saves quest info on the following events:
+Saves quest data on the following events:
 QUEST_COMPLETE,  QUEST_ACCEPTED, QUEST_DETAIL, QUEST_ITEM_UPDATE
 
 # Usage
