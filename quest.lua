@@ -129,7 +129,6 @@ end
 
 LastUnitDialogID = 0
 function LootTracker_HandleQuestEvent(event)
-  print(event)
   if UnitExists("npc") then
     _, LastUnitDialogID = ExtractGUIDInfo(UnitGUID("npc"))
   end

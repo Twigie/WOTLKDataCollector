@@ -12,11 +12,11 @@ frame:RegisterEvent("TAXIMAP_OPENED")
 frame:RegisterEvent("BANKFRAME_OPENED")
 frame:RegisterEvent("TRAINER_SHOW")
 
--- Reposition loot window to avoid blocking mouseover
-hooksecurefunc("LootFrame_Show", function()
-  LootFrame:ClearAllPoints()
-  LootFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 50, -100)
-end)
+-- -- Reposition loot window to avoid blocking mouseover
+-- hooksecurefunc("LootFrame_Show", function()
+--   LootFrame:ClearAllPoints()
+--   LootFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 50, -100)
+-- end)
 
 -- Event routing
 frame:SetScript("OnEvent", function(self, event, msg)

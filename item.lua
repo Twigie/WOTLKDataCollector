@@ -1,4 +1,3 @@
-local AceTimer = LibStub("AceTimer-3.0")
 -- local ITEM_QUALITY_NAMES = {
 --     [0] = "Poor", [1] = "Common", [2] = "Uncommon", [3] = "Rare",
 --     [4] = "Epic", [5] = "Legendary", [6] = "Artifact",
@@ -201,7 +200,7 @@ function ParseItemTooltip(tooltip)
         parsed.maxDamage = tonumber(max)
       end
     elseif line:find("Armor") then
-      local armor = string.match(text, "^(%d+)%s+Armor$")
+      local armor = line:match("^(%d+)%s+Armor$")
           parsed.armor = tonumber(armor)
       -- Speed line (e.g., "Speed 2.80")
     elseif line:find("Speed") then
