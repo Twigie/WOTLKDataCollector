@@ -31,7 +31,7 @@ frame:SetScript("OnEvent", function(self, event, msg)
         print("Data is saved to \\WTF\\Account\\USER\\"..GetRealmName().."\\"..GetUnitName("player").."\\SavedVariables\\WOTLKDataCollector.lua")
   end
 
-  if event == "GOSSIP_SHOW" or event == "MERCHANT_SHOW" or event == "TAXIMAP_OPENED" or event == "BANKFRAME_OPENED" or event == "TRAINER_SHOW"then
+  if event == "GOSSIP_SHOW" or event == "MERCHANT_SHOW" or event == "TRAINER_SHOW"then
     AddCreatureOrLocation("npc")
   end
   -- Listen for loot window opening

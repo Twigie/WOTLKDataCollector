@@ -148,7 +148,9 @@ function ParseItemTooltip(tooltip)
     resistances = {},
     stats = {},
     requirement = {},
-    armor = 0
+    armor = 0,
+    setName = "",
+    setBonus = {}
   }
 
   if not tooltip or type(tooltip) ~= "table" then return parsed end
@@ -199,11 +201,11 @@ function ParseItemTooltip(tooltip)
         parsed.minDamage = tonumber(min)
         parsed.maxDamage = tonumber(max)
       end
-    elseif line:find("Armor") then
+    elseif line:match("^(%d+)%s+Armor$") then
       local armor = line:match("^(%d+)%s+Armor$")
-          parsed.armor = tonumber(armor)
+      parsed.armor = tonumber(armor)
       -- Speed line (e.g., "Speed 2.80")
-    elseif line:find("Speed") then
+    elseif line:match("Speed%s+(%d+%.?%d*)") then
       local speed = line:match("Speed%s+(%d+%.?%d*)")
       if speed then
         parsed.speed = tonumber(speed)
@@ -214,6 +216,13 @@ function ParseItemTooltip(tooltip)
         class = class:gsub("^%s+", ""):gsub("%s+$", "")
         table.insert(parsed.requirement, class)
       end
+      -- Match set name and (X/Y)
+    elseif line:match("%(%d+/%d+%)") then
+      local setName = line:match("^(.-)%s*%(%d+/%d+%)$")
+      parsed.setName = setName
+      -- Match bonuses (e.g., (2) Set: ...)
+    elseif line:match("^%(%d+%) Set:") then
+      table.insert(parsed.setBonus, line)
     end
   end
   return parsed
@@ -259,7 +268,9 @@ function LootTracker_SaveLoot(itemLink, sourceType, sourceID)
     unique = parsedTooltip.unique or 0,
     requirement = parsedTooltip.requirement or {},
     binding = parsedTooltip.binding or "",
-    armor = parsedTooltip.armor
+    armor = parsedTooltip.armor,
+    setName = parsedTooltip.setName,
+    setBonus = parsedTooltip.setBonus,
   })
   -- LootTracker_PrintDB()
   DebugLog(string.format("Looted: %s (ID: %d, iLvl: %d, Quality: %s) from %s [%s]",
