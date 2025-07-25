@@ -14,6 +14,7 @@ Data is saved as lua tables in the addons saved variables: ItemTrackerDB Creatur
    5. Reload/relaunch wow
 # Project-Epoch Users
 If you are using this addon for Project-Epoch please send your WOTLKDataCollector.lua file to @twigie via discord
+Example Path: \Documents\WorldOfWarcraft\Epoch\WTF\Account\TWIGIE\Kezan\Xela\SavedVariables\WOTLKDataCollector.lua
 
 # Current Capabilities
 Saves creature data on the following events:
