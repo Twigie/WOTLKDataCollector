@@ -142,7 +142,7 @@ function LootTracker_HandleQuestEvent(event)
     AddQuest("Completed", unitID)
     -- If the quest has rewards then wait 1 sec and log the loot, this is so that the uncached data can be retrieved
     if not (GetNumQuestChoices() == 0 and GetNumQuestRewards() == 0) then
-      AceTimer:ScheduleTimer(ProcessQuestRewards, 1)
+      AceTimer:ScheduleTimer(ProcessQuestRewards, 0.5)
     end
   -- QuestID not available until the quest is accepted: Below will not work
   -- elseif event == "QUEST_ITEM_UPDATE" then
