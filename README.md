@@ -12,7 +12,7 @@ Data is saved as lua tables in the addons saved variables: ItemTrackerDB Creatur
    3. Rename the folder to "WOTLKDataCollector"
    4. Copy "WOTLKDataCollector" into Wow-Directory\Interface\AddOns
    5. Reload/relaunch wow
-   6. 
+
 # Project-Epoch Users
 I am no longer supporting this for the project epoch database.
 
