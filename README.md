@@ -12,9 +12,9 @@ Data is saved as lua tables in the addons saved variables: ItemTrackerDB Creatur
    3. Rename the folder to "WOTLKDataCollector"
    4. Copy "WOTLKDataCollector" into Wow-Directory\Interface\AddOns
    5. Reload/relaunch wow
+   6. 
 # Project-Epoch Users
-If you are using this addon for Project-Epoch please send your WOTLKDataCollector.lua file to @twigie via discord
-Example Path: \Documents\WorldOfWarcraft\Epoch\WTF\Account\TWIGIE\Kezan\Xela\SavedVariables\WOTLKDataCollector.lua
+I am no longer supporting this for the project epoch database.
 
 Disable any quest automation as it needs time to cache the rewards for them to be scanned.
 
