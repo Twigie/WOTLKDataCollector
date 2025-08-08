@@ -16,8 +16,6 @@ Data is saved as lua tables in the addons saved variables: ItemTrackerDB Creatur
 # Project-Epoch Users
 I am no longer supporting this for the project epoch database.
 
-Disable any quest automation as it needs time to cache the rewards for them to be scanned.
-
 # Current Capabilities
 Saves creature data on the following events:
 GOSSIP_SHOW, MERCHANT_SHOW, TAXIMAP_OPENED, BANKFRAME_OPENED, TRAINER_SHOW, QUEST_DETAIL
